@@ -3,7 +3,7 @@
 
 The poster (entry.png, bundled in this repo) was drawn offline from news
 verified as having happened or first been reported on 20 November 2026:
-42 stories, a UTC timeline strip, a world map with pins, and a DATE CHECK
+48 stories, a UTC timeline strip, a world map with pins, and a DATE CHECK
 box listing the previous day's big stories that were deliberately left out.
 
 This program only copies the bundled image to the output path, so both

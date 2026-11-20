@@ -9,7 +9,7 @@ https://make.fun/bounty/news-image-20261120
 
 ## The poster
 
-A one-page newspaper front page for **Friday 20 November 2026** — 42 stories,
+A one-page newspaper front page for **Friday 20 November 2026** — 48 stories,
 7 regions, every one of them verified as having happened or first been
 reported on that day:
 
@@ -23,16 +23,17 @@ reported on that day:
   confirming the PIF Tower hit, Cyclone Xavier, Tesla opening orders in
   Argentina, the IEA's $3.9 trillion AI data-centre warning, South Sudan's
   postponed elections, and the Ethiopia–Eritrea border build-up.
-- **26 more stories** in the numbered "Also on Friday" list.
+- **32 more stories** in the numbered "Also on Friday" list.
 - **A UTC timeline strip** (overnight → day), a **world map with numbered
-  pins** for stories 1–16 and dots for 17–42, and a **DATE CHECK box**
+  pins** for stories 1–16 and dots for 17–48, and a **DATE CHECK box**
   listing the previous day's big stories that were deliberately left out
   (the Trump–Xi–Putin summit, the ICJ Rohingya ruling, Anthropic's IPO
   debut, the Gaza scorecard, the US Senate war-powers vote, the Houthi
   missile on Riyadh's PIF Tower, the third Crimean Bridge strike).
 
 Sources: Reuters, AP, BBC, The Hindu, CNBC, AFP, Al Jazeera, Times of
-India. All illustrations are original drawings made for this entry.
+India, USGS, Formula 1. All illustrations are original drawings made for
+this entry.
 
 ## How it works
 

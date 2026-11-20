@@ -57,6 +57,7 @@ F_MED_H = font("DejaVuSerif-Bold.ttf", 13)
 F_MED_B = font("DejaVuSans.ttf", 10)
 F_SEC = font("DejaVuSans-Bold.ttf", 11)
 F_ALSO = font("DejaVuSans.ttf", 10)
+F_ALSO_S = font("DejaVuSans.ttf", 9)
 F_ALSO_B = font("DejaVuSans-Bold.ttf", 10)
 F_DC_L = font("DejaVuSans-Bold.ttf", 10)
 F_DC = font("DejaVuSans.ttf", 10)
@@ -625,6 +626,18 @@ ALSO = [
      -74.01, 40.71, "AMERICAS"),
     (42, "Antalya", "COP31 talks may run past Friday deadline",
      30.71, 36.90, "EUROPE"),
+    (43, "Beijing", "PBOC holds rates at 3.00%/3.50%, 18th month",
+     116.41, 39.90, "ASIA"),
+    (44, "Las Vegas", "Russell tops wet F1 FP2; FP1 washed out",
+     -115.14, 36.17, "AMERICAS"),
+    (45, "Tokyo", "core inflation hits 2026 high at 2.2%",
+     139.69, 35.68, "ASIA"),
+    (46, "Seoul", "Samsung names Choi Won-joon new mobile chief",
+     126.98, 37.57, "ASIA"),
+    (47, "Brussels", "youth strike sweeps Europe; rallies in 7 nations",
+     4.35, 50.85, "EUROPE"),
+    (48, "Loyalty Is.", "M5.6 quake offshore; no tsunami threat",
+     171.23, -24.70, "OCEANIA"),
 ]
 
 TIMELINE = [
@@ -648,7 +661,7 @@ FOOTER_L = ("Every story here happened or was first reported on Friday "
             "20 November 2026. CLAIM = one side's account, not independently "
             "confirmed.")
 FOOTER_R = ("Sources: Reuters, AP, BBC, The Hindu, CNBC, AFP, Al Jazeera, "
-            "Times of India. Original drawings.")
+            "Times of India, USGS, Formula 1. Original drawings.")
 
 MX = 14  # side margin
 
@@ -656,7 +669,7 @@ MX = 14  # side margin
 def draw_top(d):
     d.text((MX, 8), "ONE DAY OF WORLD NEWS, ONE PICTURE", font=F_TOP,
            fill=RED)
-    r = "42 STORIES  \u00b7  7 REGIONS  \u00b7  EVERY ONE FROM THIS FRIDAY"
+    r = "48 STORIES  \u00b7  7 REGIONS  \u00b7  EVERY ONE FROM THIS FRIDAY"
     d.text((W - MX - d.textlength(r, font=F_TOP_R), 8), r, font=F_TOP_R,
            fill=MUTED)
     d.line([(MX, 28), (W - MX, 28)], fill=RULE, width=1)
@@ -731,10 +744,10 @@ def draw_bottom(d):
     dots = [(a[3], a[4], REGION_COLORS[a[5]]) for a in ALSO]
     draw_map(d, mbox, pins, dots)
     ly = 868
-    d.text((MX, ly), "Pins: stories 1\u201316  \u00b7  Dots: stories 17\u201342",
+    d.text((MX, ly), "Pins: stories 1\u201316  \u00b7  Dots: stories 17\u201348",
            font=F_FOOT, fill=MUTED)
-    tally = ("Europe 6  \u00b7  Asia 13  \u00b7  Americas 7  \u00b7  Africa 9  "
-             "\u00b7  Middle East 2  \u00b7  Oceania 2  \u00b7  Global 3")
+    tally = ("Europe 7  \u00b7  Asia 16  \u00b7  Americas 8  \u00b7  Africa 9  "
+             "\u00b7  Middle East 2  \u00b7  Oceania 3  \u00b7  Global 3")
     text_block(d, MX, ly + 14, tally, F_FOOT, 360, MUTED, 12, max_lines=2)
     lx = MX
     ly2 = 910
@@ -751,17 +764,17 @@ def draw_bottom(d):
         if name == "Asia":
             lx = MX
             ly2 += 14
-    # also list: 3 columns x 9 rows
-    cols = [ALSO[i * 9:(i + 1) * 9] for i in range(3)]
+    # also list: 3 columns x 11 rows (32 items, stories 17-48)
+    cols = [ALSO[i * 11:(i + 1) * 11] for i in range(3)]
     cx0, cw = 382, 201
     for ci, col_items in enumerate(cols):
         cx = cx0 + ci * (cw + 12)
         for ri, (num, place, text, lon, lat, region) in enumerate(col_items):
-            ry = 682 + ri * 29
+            ry = 680 + ri * 23
             col = REGION_COLORS[region]
             badge(d, cx, ry, num, col)
             full = "%s: %s" % (place, text)
-            text_block(d, cx + 22, ry + 1, full, F_ALSO, cw - 22, INK, 12,
+            text_block(d, cx + 22, ry + 1, full, F_ALSO_S, cw - 22, INK, 11,
                        max_lines=2)
 
 
