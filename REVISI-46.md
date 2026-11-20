@@ -73,4 +73,5 @@ lebih lama), jadi tidak boleh masuk poster 20 November:
 
 ## Commit
 
-- Commit revisi: (diisi setelah commit)
+- Commit revisi: `d2286b987f6b28ffcfd365be6fa9a047b2817cde` (branch `main`,
+  commit sebelumnya `7b273338e700e4e26ce538d6f55b2e52af32b393`)
