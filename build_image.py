@@ -310,6 +310,35 @@ def ill_cop(d, x, y, w, h):
            fill=(30, 90, 40))
 
 
+def ill_gta(d, x, y, w, h):
+    d.rectangle([x, y, x + w, y + h], fill=(24, 28, 36))
+    d.text((x + 6, y + 3), "$3.79bn", font=F_MED_H, fill=(255, 210, 60))
+    # gamepad silhouette, bottom half
+    cx, cy = x + w // 2, y + h - 12
+    d.rounded_rectangle([cx - 34, cy - 7, cx + 34, cy + 7], radius=7,
+                        fill=(64, 74, 96))
+    d.ellipse([cx - 30, cy + 2, cx - 22, cy + 10], fill=(40, 50, 66))
+    d.ellipse([cx + 22, cy + 2, cx + 30, cy + 10], fill=(40, 50, 66))
+    d.ellipse([cx - 14, cy - 4, cx - 6, cy + 4], fill=(210, 210, 210))
+    d.ellipse([cx + 6, cy - 4, cx + 14, cy + 4], fill=(210, 210, 210))
+    for dx, dy, col in [(24, -3, (230, 60, 60)), (29, 2, (80, 220, 120))]:
+        d.ellipse([cx + dx - 2, cy + dy - 2, cx + dx + 2, cy + dy + 2],
+                  fill=col)
+
+
+def ill_poland(d, x, y, w, h):
+    _sky(d, x, y, w, h, (58, 68, 88), (138, 148, 168))
+    d.rectangle([x, y + h - 12, x + w, y + h], fill=(52, 62, 52))
+    # missile trail arcing down to impact
+    d.line([(x + 12, y + 6), (x + w // 2, y + h // 2),
+            (x + w - 22, y + h - 14)], fill=(230, 230, 230), width=2)
+    d.ellipse([x + w - 30, y + h - 22, x + w - 14, y + h - 6],
+              fill=(255, 140, 0))
+    _burst(d, x + w - 22, y + h - 14, 9)
+    _smoke(d, x + w - 22, y + h - 26, 0.7, color=(90, 96, 110))
+    d.text((x + 6, y + 4), "SE POLAND", font=F_TAG, fill=(255, 255, 255))
+
+
 def ill_genoa(d, x, y, w, h):
     _sky(d, x, y, w, h, (40, 56, 84), (90, 104, 130))
     d.rectangle([x, y + h - 14, x + w, y + h], fill=(60, 60, 64))
@@ -507,9 +536,9 @@ LEADS = [
          lat=26.5),
     dict(num=3, region="GLOBAL", beat="MARKETS", label="CONFIRMED",
          head="Asia's chip stocks crash as AI doubts spread",
-         body="Nikkei -4.5%, KOSPI -4.7%, SoftBank -14%; Asia-Pacific shares "
-              "head for their worst week since 2020.",
-         src="Reuters", ill=ill_markets, lon=139.69, lat=35.68),
+         body="Nikkei -4.5%, KOSPI -4.7%, SoftBank -14%; S&P -3.7%, Nasdaq "
+              "-5.3% as Wall Street follows into correction.",
+         src="Reuters; AP", ill=ill_markets, lon=139.69, lat=35.68),
     dict(num=4, region="GLOBAL", beat="CLIMATE", label="CONFIRMED",
          head="COP31 closes with fossil-fuel phase-out dropped",
          body="Revised 80-paragraph draft omits phase-out and net-zero dates; "
@@ -522,10 +551,11 @@ MEDIUMS = [
          head="Drones shut Genoa airport for 4 hours",
          body="Unidentified drones halt all flights overnight.",
          ill=ill_genoa, lon=8.93, lat=44.41),
-    dict(num=6, region="ASIA", beat="MARKETS",
-         head="Taiwan curbs short-selling as stocks slide",
-         body="Short-sale cap cut to 1% after 5,200-point rout.",
-         ill=ill_taiwan, lon=121.56, lat=25.03),
+    dict(num=6, region="AMERICAS", beat="ENTERTAINMENT", label="CONFIRMED",
+         head="GTA 6 makes $3.79bn in a day",
+         body="Rockstar: 32.5m copies pre-sold; biggest entertainment launch "
+              "ever.",
+         src="Take-Two / Rockstar", ill=ill_gta, lon=-74.01, lat=40.71),
     dict(num=7, region="ASIA", beat="WEATHER",
          head="Cyclone Akvan nears Odisha landfall",
          body="Schools shut; evacuations under way on east coast.",
@@ -541,19 +571,18 @@ MEDIUMS = [
          ill=ill_india_uk,
          lon=77.21, lat=28.61),
     dict(num=10, region="SPORT", beat="TENNIS",
-         head="ATP Finals: last semi-final spot decided",
-         body="Alcaraz v Cobolli; Medvedev v Tiafoe in Turin.",
+         head="Alcaraz, Medvedev reach ATP semis",
+         body="Alcaraz d. Cobolli 6-4, 6-1; Medvedev d. Tiafoe 6-3, 6-4.",
          ill=ill_tennis, lon=7.69, lat=45.07),
     dict(num=11, region="MIDDLE EAST", beat="RIYADH",
          head="Riyadh confirms tower hit by Houthi missile",
          body="Saudi authorities confirm PIF Tower damage.",
          ill=ill_tower, lon=46.68, lat=24.71),
-    dict(num=12, region="OCEANIA", beat="WEATHER",
-         head="Cyclone Xavier menaces Cook Islands",
-         body="Gale warning for Suwarrow; storm alert Pukapuka.",
-         ill=lambda d, x, y, w, h: ill_cyclone(d, x, y, w, h,
-                                               sea=(110, 170, 200)),
-         lon=-165.8, lat=-10.9),
+    dict(num=12, region="EUROPE", beat="SECURITY", label="CONFIRMED",
+         head="Russian missiles crash in Poland",
+         body="Kh-101 falls in SE Poland; Tusk calls it deliberate "
+              "provocation; no injuries.",
+         src="Reuters; Polish govt", ill=ill_poland, lon=22.9, lat=50.6),
     dict(num=13, region="AMERICAS", beat="BUSINESS",
          head="Tesla opens orders in Argentina",
          body="Model 3 and Model Y on sale direct from today.",
@@ -576,66 +605,66 @@ MEDIUMS = [
 ALSO = [
     (17, "Kyiv", "projectile lands near Dutch embassy; minor damage",
      30.52, 50.45, "EUROPE"),
-    (18, "Mumbai", "Sensex, Nifty gain on foreign buying",
-     72.88, 19.08, "ASIA"),
-    (19, "Taipei", "Taiwan dollar nears 10-year low",
+    (18, "Copenhagen", "Denmark expels Russian attaché over Kyivstoner plot",
+     12.57, 55.68, "EUROPE"),
+    (19, "London", "Fairford plot suspects to face trial in Nov 2027",
+     -0.13, 51.51, "EUROPE"),
+    (20, "Brussels", "youth strike sweeps Europe; rallies in 7 nations",
+     4.35, 50.85, "EUROPE"),
+    (21, "Taipei", "Taiwan dollar nears 10-year low",
      121.56, 25.03, "ASIA"),
-    (20, "Seoul", "Samsung, SK Hynix fall 5%+ as chips slide",
+    (22, "Taipei", "short-sale cap cut to 1% after rout",
+     121.56, 25.03, "ASIA"),
+    (23, "Seoul", "Samsung, SK Hynix fall 5%+ as chips slide",
      126.98, 37.57, "ASIA"),
-    (21, "Tokyo", "Topix -2.7%; markets shut Monday for holiday",
-     139.69, 35.68, "ASIA"),
-    (22, "Wellington", "India v New Zealand first Test under way",
-     174.78, -41.29, "OCEANIA"),
-    (23, "Hong Kong", "Satwik/Chirag reach Open quarter-finals",
-     114.17, 22.32, "ASIA"),
-    (24, "Bhubaneswar", "Women's Asian Hockey Champions Trophy begins",
-     85.82, 20.30, "ASIA"),
+    (24, "Seoul", "Samsung names Choi Won-joon new mobile chief",
+     126.98, 37.57, "ASIA"),
     (25, "Tokyo", "Takaichi ducks 'Taiwan contingency' question",
      139.69, 35.68, "ASIA"),
-    (26, "Dhaka", "fire at Muhammad Yunus's ancestral home",
-     90.41, 23.81, "ASIA"),
-    (27, "Washington", "Congress returns to Dec 11 funding cliff",
-     -77.04, 38.90, "AMERICAS"),
-    (28, "Washington", "Trump to hold White House news conference",
-     -77.04, 38.90, "AMERICAS"),
-    (29, "Cincinnati", "Fiona the hippo dies after swallowing a hat",
-     -84.51, 39.10, "AMERICAS"),
-    (30, "New Delhi", "state banks post Rs 1 lakh crore+ profit",
-     77.21, 28.61, "ASIA"),
-    (31, "New Delhi", "new PUC vehicle-emissions certificate rules",
-     77.21, 28.61, "ASIA"),
-    (32, "Antalya", "Europe tells Africa to use pledged climate cash first",
-     30.71, 36.90, "EUROPE"),
-    (33, "Praia", "Cabo Verde's Neves wins second term, 63.8%",
-     -23.51, 14.92, "AFRICA"),
-    (34, "Derna", "Libya seizes 4m+ drug pills, cocaine in raid",
-     22.64, 32.76, "AFRICA"),
-    (35, "Kampala", "Uganda charges missing activist with treachery",
-     32.58, 0.35, "AFRICA"),
-    (36, "Abuja", "Nigerian soldiers protest unpaid ECOWAS allowances",
-     7.49, 9.06, "AFRICA"),
-    (37, "Pretoria", "South Africa summons Fani-Kayode over conduct",
-     28.19, -25.75, "AFRICA"),
-    (38, "Cairo", "Egypt, China discuss twinning Pyramids, Great Wall",
-     31.25, 30.06, "AFRICA"),
-    (39, "Accra", "Ghana, DR Congo sign deals with Russian drone hub",
-     -0.19, 5.60, "AFRICA"),
-    (40, "Brasilia", "Brazil drops fast-track for betting crackdown bill",
-     -47.88, -15.79, "AMERICAS"),
-    (41, "New York", "US futures dip after S&P's longest slide since 2024",
-     -74.01, 40.71, "AMERICAS"),
-    (42, "Antalya", "COP31 talks may run past Friday deadline",
-     30.71, 36.90, "EUROPE"),
-    (43, "Beijing", "PBOC holds rates at 3.00%/3.50%, 18th month",
-     116.41, 39.90, "ASIA"),
-    (44, "Las Vegas", "Russell tops wet F1 FP2; FP1 washed out",
-     -115.14, 36.17, "AMERICAS"),
-    (45, "Tokyo", "core inflation hits 2026 high at 2.2%",
+    (26, "Tokyo", "core inflation hits 2026 high at 2.2%",
      139.69, 35.68, "ASIA"),
-    (46, "Seoul", "Samsung names Choi Won-joon new mobile chief",
-     126.98, 37.57, "ASIA"),
-    (47, "Brussels", "youth strike sweeps Europe; rallies in 7 nations",
-     4.35, 50.85, "EUROPE"),
+    (27, "Beijing", "PBOC holds rates at 3.00%/3.50%, 18th month",
+     116.41, 39.90, "ASIA"),
+    (28, "Dhaka", "fire at Muhammad Yunus's ancestral home",
+     90.41, 23.81, "ASIA"),
+    (29, "New York", "US futures dip after S&P's longest slide since 2024",
+     -74.01, 40.71, "AMERICAS"),
+    (30, "New York", "Bitcoin falls below $60,000, first time since July",
+     -74.01, 40.71, "AMERICAS"),
+    (31, "New York", "Indian man gets 19½ years in Pannun murder plot",
+     -74.01, 40.71, "AMERICAS"),
+    (32, "Washington", "Congress returns to Dec 11 funding cliff",
+     -77.04, 38.90, "AMERICAS"),
+    (33, "Washington", "Senate passes energy permitting bill, 62-33",
+     -77.04, 38.90, "AMERICAS"),
+    (34, "Washington", "Trump: Iran wants a deal, 'not one I'll accept'",
+     -77.04, 38.90, "AMERICAS"),
+    (35, "Cincinnati", "Fiona the hippo dies after swallowing a hat",
+     -84.51, 39.10, "AMERICAS"),
+    (36, "Huntsville", "execution takes 63 minutes; prisoner moans in pain",
+     -95.55, 30.72, "AMERICAS"),
+    (37, "Port Orange", "record floods; St. Johns River tops 1953 mark",
+     -80.99, 29.16, "AMERICAS"),
+    (38, "Las Vegas", "Russell tops wet F1 FP2; FP1 washed out",
+     -115.14, 36.17, "AMERICAS"),
+    (39, "Praia", "Cabo Verde's Neves wins second term, 63.8%",
+     -23.51, 14.92, "AFRICA"),
+    (40, "Derna", "Libya seizes 4m+ drug pills, cocaine in raid",
+     22.64, 32.76, "AFRICA"),
+    (41, "Kampala", "Uganda charges missing activist with treachery",
+     32.58, 0.35, "AFRICA"),
+    (42, "Abuja", "Nigerian soldiers protest unpaid ECOWAS allowances",
+     7.49, 9.06, "AFRICA"),
+    (43, "Pretoria", "South Africa summons Fani-Kayode over conduct",
+     28.19, -25.75, "AFRICA"),
+    (44, "Cairo", "Egypt, China discuss twinning Pyramids, Great Wall",
+     31.25, 30.06, "AFRICA"),
+    (45, "Accra", "Ghana, DR Congo sign deals with Russian drone hub",
+     -0.19, 5.60, "AFRICA"),
+    (46, "Brasilia", "Brazil drops fast-track for betting crackdown bill",
+     -47.88, -15.79, "AMERICAS"),
+    (47, "Suwarrow", "Cyclone Xavier menaces Cook Islands; gale warning",
+     -165.8, -10.9, "OCEANIA"),
     (48, "Loyalty Is.", "M5.6 quake offshore; no tsunami threat",
      171.23, -24.70, "OCEANIA"),
 ]
@@ -647,21 +676,23 @@ TIMELINE = [
     ("~02:07 UTC", "~20 missiles hit Kyiv bridges"),
     ("MORNING", "Asia stocks crash; Nikkei -4.5%"),
     ("DAY", "COP31 closes in Antalya"),
+    ("EVENING", "GTA 6: $3.79bn record launch"),
 ]
 
 DATE_CHECK = ("Left out on purpose \u2014 they broke before today (all 19 Nov): "
-              "the Trump-Xi-Putin summit and 'peace declaration', the ICJ's "
-              "Rohingya genocide ruling, Anthropic's record IPO debut (+17%), "
-              "the Gaza peace-plan scorecard (4/26), the US Senate's 51-48 "
-              "war-powers vote, the Houthi missile on Riyadh's PIF Tower, "
-              "the third Crimean Bridge strike. Not yet: the COP31 final "
-              "text, the ATP Finals semi-finalists.")
+              "the Trump-Xi-Putin summit, the ICJ Rohingya ruling, "
+              "Anthropic's IPO debut (+17%), the Gaza scorecard (4/26), "
+              "the Senate's 51-48 war-powers vote, the Houthi missile on "
+              "Riyadh's PIF Tower, the third Crimean Bridge strike, "
+              "Bukele's third-term registration, the Haiti raid (34 dead), "
+              "the Trump\u2013NYT ruling, the cyber chief's ouster.")
 
 FOOTER_L = ("Every story here happened or was first reported on Friday "
             "20 November 2026. CLAIM = one side's account, not independently "
             "confirmed.")
 FOOTER_R = ("Sources: Reuters, AP, BBC, The Hindu, CNBC, AFP, Al Jazeera, "
-            "Times of India, USGS, Formula 1. Original drawings.")
+            "Times of India, USGS, Formula 1, Take-Two, US DOJ. Original "
+            "drawings.")
 
 MX = 14  # side margin
 
@@ -687,7 +718,7 @@ def draw_timeline(d):
     d.text((MX + 8, y0 + 4), "THE DAY", font=F_TL_TIME, fill=(255, 255, 255))
     d.text((MX + 8, y0 + 18), "IN UTC", font=F_TL_TIME, fill=(255, 255, 255))
     x = MX + 100
-    colw = (W - MX - x) // 6
+    colw = (W - MX - x) // len(TIMELINE)
     for i, (tm, ev) in enumerate(TIMELINE):
         cx = x + i * colw
         if i:
@@ -728,8 +759,11 @@ def draw_medium(d, s, x, y, w):
     d.text((x + 22, ty + 2), tag, font=F_TAG, fill=col)
     hy = ty + 17
     end = text_block(d, x, hy, s["head"], F_MED_H, w, INK, 14, max_lines=3)
+    # Body allows 3 lines: the two new mediums (#6 GTA 6, #12 Poland) need
+    # a third line at this width, and the row (136 px) still fits
+    # head-3 + body-2 (129 px) and head-2 + body-3 (126 px).
     text_block(d, x, end + 1, s["body"], F_MED_B, w, MUTED, 11,
-               max_lines=2)
+               max_lines=3)
 
 
 def draw_bottom(d):
@@ -746,8 +780,8 @@ def draw_bottom(d):
     ly = 868
     d.text((MX, ly), "Pins: stories 1\u201316  \u00b7  Dots: stories 17\u201348",
            font=F_FOOT, fill=MUTED)
-    tally = ("Europe 7  \u00b7  Asia 16  \u00b7  Americas 8  \u00b7  Africa 9  "
-             "\u00b7  Middle East 2  \u00b7  Oceania 3  \u00b7  Global 3")
+    tally = ("Europe 8  \u00b7  Asia 10  \u00b7  Americas 14  \u00b7  Africa 9  "
+             "\u00b7  Middle East 2  \u00b7  Oceania 2  \u00b7  Global 3")
     text_block(d, MX, ly + 14, tally, F_FOOT, 360, MUTED, 12, max_lines=2)
     lx = MX
     ly2 = 910
