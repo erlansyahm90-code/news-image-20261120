@@ -202,4 +202,4 @@ deadline" (usang — COP31 sudah ditutup, lead #4).
 
 ## Commit
 
-- Commit refresh: (diisi setelah push — lihat `git log`)
+- Commit refresh: `dfbd79200f24aaebb819cccda06da6ed2818c10f` (branch `main`, sudah push ke origin)
